@@ -1,0 +1,11 @@
+from Level.levelEditor import Level
+
+def main():
+    new_game = Level('level')
+    new_game.read_level_file()
+    new_game.fill_level_matrix()
+
+
+
+if __name__ == "__main__":
+    main()

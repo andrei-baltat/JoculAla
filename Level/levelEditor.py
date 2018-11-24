@@ -1,17 +1,79 @@
 # *
-# constante final pentru partile componente ale levelului: 
-    #
+# constante final pentru partile componente ale levelului:
+
+player = '@'
+box = 'o'
+empty_space = '.'
+enemy = '>'
+destination = 'X'
+wall = '#'
+door = 'D'
+bullet = '*'
+'''
+########################
+#................o.....#
+#...............#......#
+#...>.......@...#......#
+#...............#......D
+#..X............#......#
+#......................#
+########################
+'''
 
 class Level:
-    def __init__(self,levelFilePath):
-        self.levelFilePath = levelFilePath
-    def readLevelFile(self):
-        with open(self.levelFilePath) as levelFile:
-            lines = levelFile.readlines()
-            startGameIndex = lines.index('game')
-            configLines = lines[:startGameIndex]
-            gameLines = lines[startGameIndex + 1:]
-            
-            configs = {line.split('=')[0]: line.split('=')[1] for line in configLines}
+    def __init__(self, level_file_path):
+        self.level_file_path = level_file_path
+
+    def read_level_file(self):
+        with open(self.level_file_path) as levelFile:
+            # read the line from the config file
+            lines = levelFile.read().splitlines()
+            # where the config ends
+            start_game_index = lines.index('game')
+            # list with the config lines
+            config_lines = lines[:start_game_index]
+            # list with the game lines
+            self.game_lines = lines[start_game_index + 1:]
+            # all the configs stored in a dictionary splited by #
+            self.configs = {line.split('=')[0]: line.split('=')[1] for line in config_lines}
+            # level = something
+
+    def fill_level_matrix(self):
+        self.level = []
+        line = 0
+        row = 0
+        for line in self.game_lines:
+            for elem in line.split():
+                self.level[line][row] = elem
+
+
+
+
+
+            '''
+            Configs is now a dict with the following shape:
+            configs = {
+                '#': 'wall',
+                '@': 'player',
+                ' ': 'empty',
+                etc...
+            }
+
+            TODO 1: think of possible level elements (e.g. walls, empty, doors etc).
+            TODO 2: make default characters for elements that are not specified in the configs 
+            (e.g. walls can by default be '#')
+            TODO 3: using the configs, parse the @game_lines and fill the game matrix 
+            (@level) with the corresponding elements
+                    Careful with dimensions. 
+            TODO 4: make an example level file and test the parsing
+            TODO 5: implement __str__() for the Level class to make it human readable
+            e.g.
+            level =[
+                ['wall', 'wall', 'wall']
+                ['wall', 'empty', 'wall']
+                ['wall', 'empty', 'wall']
+                ]
+            '''
+
 
 
