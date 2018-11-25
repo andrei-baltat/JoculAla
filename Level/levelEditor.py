@@ -28,6 +28,7 @@ class Level:
         with open(self.level_file_path) as levelFile:
             # read the line from the config file
             lines = levelFile.read().splitlines()
+            lines = [line.replace(' ', '') for line in lines]
             # where the config ends
             start_game_index = lines.index('game')
             # list with the config lines
@@ -35,20 +36,16 @@ class Level:
             # list with the game lines
             self.game_lines = lines[start_game_index + 1:]
             # all the configs stored in a dictionary splited by #
-            self.configs = {line.split('=')[0]: line.split('=')[1] for line in config_lines}
+            self.configs = {line.split('=')[1]: line.split('=')[0] for line in config_lines}
             # level = something
 
     def fill_level_matrix(self):
         self.level = []
-        line = 0
-        row = 0
         for line in self.game_lines:
-            for elem in line.split():
-                self.level[line][row] = elem
-
-
-
-
+            row = []
+            for elem in line:
+                row.append(self.configs[elem])
+            self.level.append(row)
 
             '''
             Configs is now a dict with the following shape:
@@ -74,6 +71,6 @@ class Level:
                 ['wall', 'empty', 'wall']
                 ]
             '''
-
+        print(self.level)
 
 

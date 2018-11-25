@@ -1,11 +1,11 @@
-player = '@'
-box = 'o'
-empty_space = '.'
-enemy = '>'
-destination = 'X'
-wall = '#'
-door = 'D'
-bullet = '*'
+player = @
+box = o
+empty_space = .
+enemy = >
+destination = X
+wall = #
+door = D
+bullet = *
 game
 ########################
 #................o.....#
