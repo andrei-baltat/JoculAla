@@ -1,9 +1,13 @@
-# *
-# constante final pentru partile componente ale levelului:
+import random, os.path
 
+#import basic pygame modules
+import pygame
+from pygame.locals import *
+
+#setting for the game
 player = '@'
 box = 'o'
-empty_space = '.'
+empty_space = '.' #nu cred ca o sa avem nevoie.
 enemy = '>'
 destination = 'X'
 wall = '#'
@@ -19,6 +23,11 @@ bullet = '*'
 #......................#
 ########################
 '''
+
+
+# game constants
+SCREENRECT = Rect(0, 0, 400, 400)
+
 
 class Level:
     def __init__(self, level_file_path):
