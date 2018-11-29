@@ -21,9 +21,12 @@ from pygame.locals import *
 SCREENRECT = Rect(0, 0, 400, 400)
 
 class Level:
+    def __init__(self, level_file_path : str):
+        self.level_file_path : str = level_file_path
+        self.read_level_configs()
+
     def read_level_configs(self):
-        with open(self.level_file_path : str) as levelFile:
-            # read the line from the config file
+        with open(self.level_file_path) as levelFile:
             lines = levelFile.read().splitlines()
             lines = [line.replace(' ', '') for line in lines]
             # where the config ends
@@ -57,9 +60,7 @@ class Level:
                     row.append(self.configs[elem])
                 self.level.append(row)
 
-    def __init__(self, level_file_path : str):
-        self.level_file_path : str = level_file_path
-        self.read_level_configs()
+
 
     def __str__(self):
         print(self.level)
