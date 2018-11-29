@@ -16,6 +16,8 @@ MAX_SHOTS      = 2      #most player bullets onscreen
 ALIEN_ODDS     = 22     #chances a new alien appears
 BOMB_ODDS      = 60    #chances a new bomb will drop
 ALIEN_RELOAD   = 12     #frames between new aliens
+CELL_HEIGHT = 32
+CELL_WIDTH = 32
 SCREENRECT     = Rect(0, 0, 640, 480)
 SCORE          = 0
 
@@ -187,7 +189,7 @@ def main(winstyle = 0):
     winstyle = 0  # |FULLSCREEN
     bestdepth = pygame.display.mode_ok(SCREENRECT.size, winstyle, 32)
     screen = pygame.display.set_mode(SCREENRECT.size, winstyle, bestdepth)
-
+    
     #Load images, assign to sprite classes
     #(do this before the classes are used, after screen setup)
     img = load_image('player1.gif')
@@ -208,7 +210,7 @@ def main(winstyle = 0):
     bgdtile = load_image('background.gif')
     background = pygame.Surface(SCREENRECT.size)
     for x in range(0, SCREENRECT.width, bgdtile.get_width()):
-        background.blit(bgdtile, (x, 0))
+        screen.blit(bgdtile, (x, 0))
     screen.blit(background, (0,0))
     pygame.display.flip()
 
