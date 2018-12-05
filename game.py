@@ -18,19 +18,19 @@ class Game:
         self.screen = pygame.display.set_mode(self.screen_rect.size, int(is_fullscreen), best_depth)
         #initialize the images
         self.images : dict = {
-                "player": pygame.image.load(r"C:\JoculAla\assets\pictures\player.png"),
-                "box": pygame.image.load(r"C:\JoculAla\assets\pictures\box.png"),
+                "player": pygame.image.load("./assets/pictures/player.png"),
+                "box": pygame.image.load("./assets/pictures/box.png"),
                 # "empty_space": load_image(r"C:\JoculAla\assets\pictures\empty.png"),
-                "enemy": pygame.image.load(r"C:\JoculAla\assets\pictures\enemy.png"),
-                "destination": pygame.image.load(r"C:\JoculAla\assets\pictures\landing.png"),
-                "wall": pygame.image.load(r"C:\JoculAla\assets\pictures\wall.png"),
-                "door": pygame.image.load(r"C:\JoculAla\assets\pictures\door.png"),
-                "bullet": pygame.image.load(r"C:\JoculAla\assets\pictures\bullet.png"),
+                "enemy": pygame.image.load("./assets/pictures/enemy.png"),
+                "destination": pygame.image.load("./assets/pictures/landing.png"),
+                "wall": pygame.image.load("./assets/pictures/wall.png"),
+                "door": pygame.image.load("./assets/pictures/door.png"),
+                "bullet": pygame.image.load("./assets/pictures/bullet.png"),
         }
 
         #TO DO: would be nice to create a name and picture for the window
         #create the background
-        background_tile =  pygame.image.load(r"C:\JoculAla\assets\pictures\background.png")
+        background_tile =  pygame.image.load("./assets/pictures/background.jpg")
         background = pygame.Surface(self.screen_rect.size)
         for x in range (0,self.screen_rect.width, background_tile.get_width()):
             self.screen.blit(background_tile,(x,0))
