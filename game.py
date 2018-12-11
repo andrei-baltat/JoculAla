@@ -3,41 +3,63 @@
 import random, os.path
 
 #import basic pygame modules
-import pygame
+import pygame as pg
 from pygame.locals import *
 
 class Game:
     def __init__(self, resolution : tuple, is_fullscreen : bool = True):
-        pygame.init()
+
+        pg.init()
         self.resolution : tuple = resolution
         #here multiple levels can be added
         self.levels : list = [('./assets/level/level1')]
         self.screen_rect : Rect = Rect(0, 0, resolution[0], resolution[1])
-        best_depth = pygame.display.mode_ok(self.screen_rect.size, int(is_fullscreen) , 32)
+
         #create a screen
-        self.screen = pygame.display.set_mode(self.screen_rect.size, int(is_fullscreen), best_depth)
+
+        self.screen = pg.display.set_mode(resolution, int(is_fullscreen))
         #initialize the images
         self.images : dict = {
-                "player": pygame.image.load("./assets/pictures/player.png"),
-                "box": pygame.image.load("./assets/pictures/box.png"),
+                "player": pg.image.load("./assets/pictures/player.png"),
+                "box": pg.image.load("./assets/pictures/box.png"),
                 # "empty_space": load_image(r"C:\JoculAla\assets\pictures\empty.png"),
-                "enemy": pygame.image.load("./assets/pictures/enemy.png"),
-                "destination": pygame.image.load("./assets/pictures/landing.png"),
-                "wall": pygame.image.load("./assets/pictures/wall.png"),
-                "door": pygame.image.load("./assets/pictures/door.png"),
-                "bullet": pygame.image.load("./assets/pictures/bullet.png"),
+                "enemy": pg.image.load("./assets/pictures/enemy.png"),
+                "destination": pg.image.load("./assets/pictures/landing.png"),
+                "wall": pg.image.load("./assets/pictures/wall.png"),
+                "door": pg.image.load("./assets/pictures/door.png"),
+                "bullet": pg.image.load("./assets/pictures/bullet.png"),
+                "background": pg.image.load("./assets/pictures/background.jpg")
         }
 
+    def render(self):
+        # Clear the game screen (draw the background)
+        self.screen.fill([255,255,255])
+
+        scaled_background = pg.transform.scale(self.images['background'], self.resolution)
+        self.screen.blit(scaled_background, (0, 0))
+        pg.display.flip()
+
+
+        # GENERAL TODO: Draw other elements on top of background
+        # TODO 1: Parse the map (use level parser)
+        # TODO 2: Make a grid with the same size as the map
+
+
+    def run(self):  
         #TO DO: would be nice to create a name and picture for the window
         #create the background
-        background_tile =  pygame.image.load("./assets/pictures/background.jpg")
-        background = pygame.Surface(self.screen_rect.size)
-        for x in range (0,self.screen_rect.width, background_tile.get_width()):
-            self.screen.blit(background_tile,(x,0))
-        self.screen.blit(background,(0,0))
-        pygame.display.flip()
+        running = True
+        while running:
+            self.render()
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running = False
 
 
 
+def main():
+    game = Game((1000, 1000))
+    game.run()
 
-if __name__ == '__main__': Game((400,400))
+if __name__ == '__main__': 
+    main()
