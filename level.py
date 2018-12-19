@@ -3,6 +3,7 @@ import random, os.path
 #import basic pygame modules
 import pygame
 from pygame.locals import *
+from typing import Tuple
 
 #setting for the game
 
@@ -16,7 +17,6 @@ from pygame.locals import *
 #......................#
 ########################
 '''
-
 # game constants
 SCREENRECT = Rect(0, 0, 400, 400)
 
@@ -50,7 +50,7 @@ class Level:
             # Override default configs with user settings
             for line in config_lines:
                 key, value = line.split('=')
-                self.config_lines[key] = value
+                config_lines[key] = value
 
             # Fill level matrix based on configs and character map
             self.level : list = []
@@ -65,5 +65,15 @@ class Level:
     def __str__(self):
         print(self.level)
 
+    def render(self, screen: pygame.Surface, resolution: Tuple[int]) -> None:
+        cell_width = resolution[0] / len(self.level[0])
+        cell_height = resolution[1] / len(self.level)
+
+        for row in range(len(self.level)):
+            for column in range(len(self.level[row])):
+                x, y = (column * cell_width, row * cell_height)
+                cell_rect = Rect(x, y, cell_width, cell_height)
+                pygame.draw.rect(screen, [0, 0, 0], cell_rect )
+        return 0
 
 

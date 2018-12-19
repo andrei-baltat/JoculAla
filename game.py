@@ -5,6 +5,7 @@ import random, os.path
 #import basic pygame modules
 import pygame as pg
 from pygame.locals import *
+from level import Level
 
 class Game:
     def __init__(self, resolution : tuple, is_fullscreen : bool = True):
@@ -12,7 +13,7 @@ class Game:
         pg.init()
         self.resolution : tuple = resolution
         #here multiple levels can be added
-        self.levels : list = [('./assets/level/level1')]
+        self.levels : list = [Level('./assets/level/level1')]
         self.screen_rect : Rect = Rect(0, 0, resolution[0], resolution[1])
 
         #create a screen
@@ -30,14 +31,18 @@ class Game:
                 "bullet": pg.image.load("./assets/pictures/bullet.png"),
                 "background": pg.image.load("./assets/pictures/background.jpg")
         }
+        
+        
+
+
 
     def render(self):
         # Clear the game screen (draw the background)
         self.screen.fill([255,255,255])
-
         scaled_background = pg.transform.scale(self.images['background'], self.resolution)
         self.screen.blit(scaled_background, (0, 0))
         pg.display.flip()
+        self.levels[0].render(self.screen, self.resolution)
 
 
         # GENERAL TODO: Draw other elements on top of background
