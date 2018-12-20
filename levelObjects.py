@@ -69,7 +69,12 @@ class Player(LevelObject):
         for event in events:
             if event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
                 self.rect[0] += -10
-
+            if event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
+                self.rect[0] += +10
+            if event.type == pg.KEYDOWN and event.key == pg.K_UP:
+                self.rect[1] += -10
+            if event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
+                self.rect[1] += +10
 class Destination(LevelObject):
     def __init__(self, rect):
         super(Destination, self).__init__(rect)
