@@ -2,12 +2,16 @@ import random, os.path
 
 #import basic pygame modules
 import pygame
+from math import ceil
 from pygame.locals import *
 from typing import Tuple
-
+from pygame import gfxdraw
+from levelObjects import create_level_objects, LevelObject
 #setting for the game
 
 '''
+key1=val1
+key1=val1
 ########################
 #................o.....#
 #...............#......#
@@ -21,8 +25,9 @@ from typing import Tuple
 SCREENRECT = Rect(0, 0, 400, 400)
 
 class Level:
-    def __init__(self, level_file_path : str):
+    def __init__(self, level_file_path : str, resolution: Tuple[int]):
         self.level_file_path : str = level_file_path
+        self.resolution = resolution
         self.read_level_configs()
 
     def read_level_configs(self):
@@ -38,42 +43,47 @@ class Level:
 
             # Set default configs 
             self.configs : dict = {
-                "player": "@",
-                "box": "o",
-                "empty_space": ".",
-                "enemy": ">",
-                "destination": "X",
-                "wall": "#",
-                "door": "D",
-                "bullet": "*"
+                 "@":"player",
+                 "o":"box",
+                 ".":"empty_space",
+                 ">":"enemy",
+                 "X":"destination",
+                 "#":"wall",
+                 "D":"door",
+                 "*":"bullet"
             }
             # Override default configs with user settings
             for line in config_lines:
                 key, value = line.split('=')
-                config_lines[key] = value
+                self.configs[value] = key
 
+            self.cell_width = ceil(self.resolution[0] / len(self.game_lines[0]))
+            self.cell_height = ceil(self.resolution[1] / len(self.game_lines))
+           
             # Fill level matrix based on configs and character map
+            # self.level[row][col] might be "box" or "empty_space"
             self.level : list = []
-            for line in self.game_lines:
-                row = []
-                for elem in line:
-                    row.append(self.configs[elem])
-                self.level.append(row)
 
+            for row in range(len(self.game_lines)):
+                self.level.append([])
+                for column in range(len(self.game_lines[row])):
+                    rect = (column * self.cell_width, row * self.cell_height, self.cell_width, self.cell_width)
+
+                    # Add new level objects to the level matrix
+                    self.level[-1].append(create_level_objects(self.configs[self.game_lines[row][column]], rect))
 
 
     def __str__(self):
         print(self.level)
 
-    def render(self, screen: pygame.Surface, resolution: Tuple[int]) -> None:
-        cell_width = resolution[0] / len(self.level[0])
-        cell_height = resolution[1] / len(self.level)
-
+    def update(self, events):
         for row in range(len(self.level)):
             for column in range(len(self.level[row])):
-                x, y = (column * cell_width, row * cell_height)
-                cell_rect = Rect(x, y, cell_width, cell_height)
-                pygame.draw.rect(screen, [0, 0, 0], cell_rect )
-        return 0
+                self.level[row][column].update(events)
+        
+    def render(self, screen: pygame.Surface) -> None:
+        for row in range(len(self.level)):
+            for column in range(len(self.level[row])):
+                self.level[row][column].render(screen)                           
 
 
